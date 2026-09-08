@@ -1,50 +1,52 @@
 ---
-name: File an issue…
-about: Create a report to help us improve
+name: 提交 issue…
+about: 创建报告帮助我们改进
 title: ''
 labels: ''
 assignees: ''
 
 ---
 
-<!-- Thank you for being interested in nvm! Please help us by filling out the following form if you‘re having trouble. If you have a feature request, or some other question, please feel free to clear out the form. Thanks! -->
+> 🌐 本文档由 [nvm-sh/nvm](https://github.com/nvm-sh/nvm) 翻译,英文原版见原项目。
 
-#### Operating system and version:
+<!-- 感谢你对 nvm 的关注!如果你遇到了问题,请填写以下表单。如果你是想提功能建议或有其他问题,直接清空表单即可。谢谢! -->
 
-#### `nvm debug` output:
+#### 操作系统及版本:
+
+#### `nvm debug` 输出:
 <details>
-<!-- do not delete the following blank line -->
+<!-- 请勿删除下面这一空行 -->
 
 ```sh
 
 ```
 </details>
 
-#### `nvm ls` output:
+#### `nvm ls` 输出:
 <details>
-<!-- do not delete the following blank line -->
+<!-- 请勿删除下面这一空行 -->
 
 ```sh
 
 ```
 </details>
 
-#### How did you install `nvm`?
-<!-- (e.g. install script in readme, Homebrew) -->
+#### 你是如何安装 `nvm` 的?
+<!-- (例如 README 中的安装脚本、Homebrew 等) -->
 
-#### What steps did you perform?
+#### 你执行了哪些步骤?
 
-#### What happened?
+#### 实际发生了什么?
 
-#### What did you expect to happen?
+#### 你期望发生什么?
 
-#### Is there anything in any of your profile files that modifies the `PATH`?
-<!--  (e.g. `.bashrc`, `.bash_profile`, `.zshrc`, etc) -->
+#### 你的任何 profile 文件中是否有修改 `PATH` 的内容?
+<!-- (例如 `.bashrc`、`.bash_profile`、`.zshrc` 等) -->
 
-<!-- Please remove the following section if it does not apply to you -->
-#### If you are having installation issues, or getting "N/A", what does `curl -I --compressed -v https://nodejs.org/dist/` print out?
+<!-- 如果以下部分与你无关,请删除 -->
+#### 如果你遇到安装问题,或版本显示 "N/A",`curl -I --compressed -v https://nodejs.org/dist/` 的输出是什么?
 <details>
-<!-- do not delete the following blank line -->
+<!-- 请勿删除下面这一空行 -->
 
 ```sh
 

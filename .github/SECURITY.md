@@ -1,35 +1,37 @@
-# Security
+# 安全
 
-Please file a private vulnerability report via GitHub, email [@ljharb](https://github.com/ljharb), or see https://tidelift.com/security if you have a potential security vulnerability to report.
+> 🌐 本文档由 [nvm-sh/nvm](https://github.com/nvm-sh/nvm) 翻译,英文原版见原项目。
 
-## Escalation
+如需报告潜在的安全漏洞,请通过 GitHub 提交私密漏洞报告,或发送邮件联系 [@ljharb](https://github.com/ljharb),也可参阅 https://tidelift.com/security。
 
-If you do not receive an acknowledgement of your report within 6 business days, or if you cannot find a private security contact for the project, you may escalate to the OpenJS Foundation CNA at `security@lists.openjsf.org`.
+## 升级上报
 
-If the project acknowledges your report but does not provide any further response or engagement within 14 days, escalation is also appropriate.
+如果你在 6 个工作日内未收到对报告的确认回执,或者找不到本项目的私密安全联系方式,可以向上报(escalate)至 OpenJS 基金会 CNA:`security@lists.openjsf.org`。
+
+如果项目已确认收到你的报告,但在 14 天内没有任何进一步回应或跟进,同样可以向上报。
 
 
-## OpenSSF CII Best Practices
+## OpenSSF CII 最佳实践
 
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/684/badge)](https://bestpractices.coreinfrastructure.org/projects/684)
 
-There are three “tiers”: passing, silver, and gold.
+共有三个"等级":passing(通过)、silver(银牌)和 gold(金牌)。
 
-### Passing
-We meet 100% of the “passing” criteria.
+### Passing(通过)
+我们满足"passing"级别 100% 的标准。
 
-### Silver
-We meet 100% of the “silver” criteria.
+### Silver(银牌)
+我们满足"silver"级别 100% 的标准。
 
-### Gold
-We meet 78% of the “gold” criteria. The gaps are as follows:
-  - because we only have one maintainer, the project has no way to continue if that maintainer stops being active.
-  - We do not include a copyright or license statement in each source file. Efforts are underway to change this archaic practice into a suggestion instead of a hard requirement.
+### Gold(金牌)
+我们满足"gold"级别 78% 的标准。尚存差距如下:
+  - 由于我们只有一名维护者,一旦该维护者停止活跃,项目将无法延续。
+  - 我们没有在每个源码文件中加入版权或许可证声明。目前正努力推动改变这一过时做法,使其从硬性要求变为建议。
 
-## Threat Model
+## 威胁模型
 
-See [THREAT_MODEL.md](.github/THREAT_MODEL.md).
+参见 [THREAT_MODEL.md](.github/THREAT_MODEL.md)。
 
-## Incident Response Plan
+## 事件响应计划
 
-Please see our [Incident Response Plan](.github/INCIDENT_RESPONSE_PLAN.md).
+请参阅我们的[事件响应计划](.github/INCIDENT_RESPONSE_PLAN.md)。
