@@ -1,122 +1,123 @@
-# Code of Conduct
+# 行为准则
 
-`nvm`, as a member project of the OpenJS Foundation, uses [Contributor Covenant v2.1](https://www.contributor-covenant.org/version/2/1/code_of_conduct/) as their code of conduct. The full text is included [below](#contributor-covenant-code-of-conduct) in English, and translations are available from the Contributor Covenant organisation:
+> 🌐 本文档由 [nvm-sh/nvm](https://github.com/nvm-sh/nvm) 翻译,英文原版见原项目。
+
+`nvm` 作为 OpenJS 基金会的成员项目,采用[《贡献者公约》第 2.1 版](https://www.contributor-covenant.org/version/2/1/code_of_conduct/)作为其行为准则。全文英文版见[下方](#contributor-covenant-行为准则),《贡献者公约》组织也提供了多语言译文:
 
 - [contributor-covenant.org/translations](https://www.contributor-covenant.org/translations)
 - [github.com/ContributorCovenant](https://github.com/ContributorCovenant/contributor_covenant/tree/release/content/version/2/1)
 
-Refer to the sections on reporting and escalation in this document for the specific emails that can be used to report and escalate issues.
+报告与升级上报所用邮箱请参阅本文档中的"报告"与"升级上报"章节。
 
-## Reporting
+## 报告
 
-### Project Spaces
+### 项目空间
 
-For reporting issues in spaces related to `nvm` please use the email `ljharb@gmail.com`. `nvm` handles CoC issues related to the spaces that it maintains. Projects maintainers commit to:
+报告与 `nvm` 相关空间中的问题,请使用邮箱 `ljharb@gmail.com`。`nvm` 负责处理与其所维护空间相关的行为准则问题。项目维护者承诺:
 
-- maintain the confidentiality with regard to the reporter of an incident
-- to participate in the path for escalation as outlined in the section on Escalation when required.
+- 对事件报告人的身份严格保密
+- 在必要时按"升级上报"章节所列流程参与处理
 
-### Foundation Spaces
+### 基金会空间
 
-For reporting issues in spaces managed by the OpenJS Foundation, for example, repositories within the OpenJS organization, use the email `report@lists.openjsf.org`.
-The Cross Project Council (CPC) is responsible for managing these reports and commits to:
+报告 OpenJS 基金会管理的空间(例如 OpenJS 组织内的仓库)中的问题,请使用邮箱 `report@lists.openjsf.org`。跨项目理事会(CPC)负责处理这些报告,并承诺:
 
-- maintain the confidentiality with regard to the reporter of an incident
-- to participate in the path for escalation as outlined in the section on Escalation when required.
+- 对事件报告人的身份严格保密
+- 在必要时按"升级上报"章节所列流程参与处理
 
-## Escalation
+## 升级上报
 
-The OpenJS Foundation maintains a Code of Conduct Panel (CoCP).
-This is a foundation-wide team established to manage escalation when a reporter believes that a report to a member project or the CPC has not been properly handled.
-In order to escalate to the CoCP send an email to `coc-escalation@lists.openjsf.org`.
+OpenJS 基金会设有行为准则小组(CoCP)。
+这是一个覆盖全基金会的团队,专门处理这样一种情况:报告人认为其提交给成员项目或 CPC 的报告未得到妥善处理。
+如需向行为准则小组升级上报,请发送邮件至 `coc-escalation@lists.openjsf.org`。
 
-For more information, refer to the full [Code of Conduct governance document](https://github.com/openjs-foundation/cross-project-council/blob/HEAD/CODE_OF_CONDUCT.md).
+更多信息请参阅完整的[行为准则治理文档](https://github.com/openjs-foundation/cross-project-council/blob/HEAD/CODE_OF_CONDUCT.md)。
 
 ---
 
-# Contributor Covenant Code of Conduct
+# Contributor Covenant 行为准则
 
-## Our Pledge
+## 我们的承诺
 
-We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, caste, color, religion, or sexual identity and orientation.
+作为成员、贡献者和领导者,我们承诺使每位社区参与者免受骚扰,不因年龄、体型、可见或不可见的残障、族裔、性征、性别认同与表达、经验水平、教育程度、社会经济地位、国籍、个人外貌、种族、种姓、肤色、宗教,或性取向与性别认同而受到歧视。
 
-We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.
+我们承诺以有助于建设开放、友好、多元、包容且健康的社区的方式行事与互动。
 
-## Our Standards
+## 行为标准
 
-Examples of behavior that contributes to a positive environment for our community include:
+有助于营造社区积极氛围的行为示例包括:
 
-* Demonstrating empathy and kindness toward other people
-* Being respectful of differing opinions, viewpoints, and experiences
-* Giving and gracefully accepting constructive feedback
-* Accepting responsibility and apologizing to those affected by our mistakes, and learning from the experience
-* Focusing on what is best not just for us as individuals, but for the overall community
+* 对他人展现同理心与善意
+* 尊重不同的意见、观点与经历
+* 给予建设性反馈,并从容接受他人对自己的反馈
+* 为自己的过错承担责任、向受影响者道歉,并从中吸取教训
+* 不仅关注个人得失,更关注整个社区的利益
 
-Examples of unacceptable behavior include:
+不可接受的行为示例包括:
 
-* The use of sexualized language or imagery, and sexual attention or advances of any kind
-* Trolling, insulting or derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others' private information, such as a physical or email address, without their explicit permission
-* Other conduct which could reasonably be considered inappropriate in a professional setting
+* 使用带有性暗示的语言或图像,以及任何形式的性关注或性挑逗
+* 恶意捣乱、侮辱性或贬损性言论,以及针对个人或政治立场的攻击
+* 公开或私下的骚扰行为
+* 未经他人明确许可,公开他人的隐私信息,如通信地址或电子邮箱
+* 其他在被合理视为专业场合中不恰当的行为
 
-## Enforcement Responsibilities
+## 执行责任
 
-Community leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior that they deem inappropriate, threatening, offensive, or harmful.
+社区领导者有责任澄清并执行可接受行为的标准,对于其认定的不恰当、威胁性、冒犯性或有害的行为,将采取适当且公正的纠正措施。
 
-Community leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, and will communicate reasons for moderation decisions when appropriate.
+社区领导者有权利也有责任移除、编辑或拒绝与本行为准则相悖的评论、提交、代码、维基编辑、issue 及其他贡献,并在适当时说明处理决定的理由。
 
-## Scope
+## 适用范围
 
-This Code of Conduct applies within all community spaces, and also applies when an individual is officially representing the community in public spaces.
-Examples of representing our community include using an official e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event.
+本行为准则适用于所有社区空间,也适用于个人在公共空间正式代表社区的情形。
+代表本社区的示例包括:使用官方电子邮箱、通过官方社交媒体账号发帖,或在线上/线下活动中担任指定代表。
 
-## Enforcement
+## 执行
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community leaders responsible for enforcement at [@ljharb](ljharb@gmail.com).
-All complaints will be reviewed and investigated promptly and fairly.
+如遇辱骂、骚扰或其他不可接受的行为,可向负责执行的社区领导者报告:[@ljharb](ljharb@gmail.com)。
+所有投诉都将得到及时、公正的审阅与调查。
 
-All community leaders are obligated to respect the privacy and security of the reporter of any incident.
+所有社区领导者都有义务尊重任何事件报告人的隐私与安全。
 
-## Enforcement Guidelines
+## 执行准则
 
-Community leaders will follow these Community Impact Guidelines in determining the consequences for any action they deem in violation of this Code of Conduct:
+社区领导者将遵循以下"社区影响准则",来认定其认为违反本行为准则的行为的后果:
 
-### 1. Correction
+### 1. 纠正
 
-**Community Impact**: Use of inappropriate language or other behavior deemed unprofessional or unwelcome in the community.
+**社区影响**:使用不当语言,或出现其他被社区视为不专业或不受欢迎的行为。
 
-**Consequence**: A private, written warning from community leaders, providing clarity around the nature of the violation and an explanation of why the behavior was inappropriate. A public apology may be requested.
+**处理结果**:由社区领导者发出私下书面警告,明确说明违规行为的性质,并解释该行为为何不当。可能会要求公开道歉。
 
-### 2. Warning
+### 2. 警告
 
-**Community Impact**: A violation through a single incident or series of actions.
+**社区影响**:由单一事件或一系列行为造成的违规。
 
-**Consequence**: A warning with consequences for continued behavior. No interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, for a specified period of time. This includes avoiding interactions in community spaces as well as external channels like social media. Violating these terms may lead to a temporary or permanent ban.
+**处理结果**:发出警告并说明持续违规的后果。在规定期限内,不得与相关人员互动,包括不得主动接触执行行为准则的人员。这包括避免在社区空间以及社交媒体等外部渠道进行互动。违反上述要求可能导致临时或永久封禁。
 
-### 3. Temporary Ban
+### 3. 临时封禁
 
-**Community Impact**: A serious violation of community standards, including sustained inappropriate behavior.
+**社区影响**:严重违反社区标准,包括持续的不当行为。
 
-**Consequence**: A temporary ban from any sort of interaction or public communication with the community for a specified period of time. No public or private interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, is allowed during this period. Violating these terms may lead to a permanent ban.
+**处理结果**:在规定期限内,临时禁止以任何形式与社区互动或进行公开交流。此期间不得与相关人员发生任何公开或私下互动,包括不得主动接触执行行为准则的人员。违反上述要求可能导致永久封禁。
 
-### 4. Permanent Ban
+### 4. 永久封禁
 
-**Community Impact**: Demonstrating a pattern of violation of community standards, including sustained inappropriate behavior, harassment of an individual, or aggression toward or disparagement of classes of individuals.
+**社区影响**:表现出违反社区标准的一贯模式,包括持续的不当行为、对个人的骚扰,或针对某一类人群的攻击或贬损。
 
-**Consequence**: A permanent ban from any sort of public interaction within the community.
+**处理结果**:永久禁止在社区内进行任何形式的公开互动。
 
-## Attribution
+## 出处
 
-This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 2.1, available at
-[https://www.contributor-covenant.org/version/2/1/code_of_conduct.html][v2.1].
+本行为准则改编自 [《贡献者公约》][homepage] 第 2.1 版,原文见
+[https://www.contributor-covenant.org/version/2/1/code_of_conduct.html][v2.1]。
 
-Community Impact Guidelines were inspired by
-[Mozilla's code of conduct enforcement ladder][Mozilla CoC].
+"社区影响准则"的设计灵感来自
+[Mozilla 的行为准则执行阶梯][Mozilla CoC]。
 
-For answers to common questions about this code of conduct, see the FAQ at
-[https://www.contributor-covenant.org/faq][FAQ]. Translations are available at
-[https://www.contributor-covenant.org/translations][translations].
+有关本行为准则的常见问题解答,参见
+[https://www.contributor-covenant.org/faq][FAQ]。多语言译文见
+[https://www.contributor-covenant.org/translations][translations]。
 
 [homepage]: https://www.contributor-covenant.org
 [v2.1]: https://www.contributor-covenant.org/version/2/1/code_of_conduct.html
