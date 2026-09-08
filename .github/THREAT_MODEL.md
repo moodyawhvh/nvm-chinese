@@ -1,141 +1,143 @@
-# `nvm` Threat Model
+# `nvm` 威胁模型
 
-## Introduction
+> 🌐 本文档由 [nvm-sh/nvm](https://github.com/nvm-sh/nvm) 翻译,英文原版见原项目。
+>
+> ℹ️ 注:原文超过 10000 字符,本页仅翻译核心章节(威胁条目与信任边界部分为全文译出,图示说明从略)。
 
-Threat model analysis assists organizations to proactively identify potential security threats and vulnerabilities, enabling them to develop effective strategies to mitigate these risks before they are exploited by attackers.
-Furthermore, this often helps to improve the overall security and resilience of a system or application.
+## 引言
 
-The aim of this section is to facilitate the identification of potential security threats and vulnerabilities that may be exploited by adversaries, along with possible outcomes and appropriate mitigations.
+威胁模型分析可以帮助组织主动识别潜在安全威胁与漏洞,从而在攻击者利用之前制定有效的风险缓解策略。
+此外,这通常也有助于提升系统或应用的整体安全性与韧性。
 
-## Relevant assets and threat actors
+本节旨在帮助识别可能被攻击者利用的安全威胁与漏洞,并给出可能的后果与相应的缓解措施。
 
-The following assets are considered important for the `nvm` project:
-  - `nvm` source code and project documentation
-  - Underlying `nvm` dependencies
-  - `nvm` development infrastructure
-  - `nvm` installed devices including servers
+## 重要资产与威胁主体
 
-The following threat actors are considered relevant to the `nvm` application:
-  - External malicious attackers
-  - Internal malicious attackers
-  - Services
-  - Malicious insider actors
-  - Third-party libraries
+`nvm` 项目的重要资产包括:
+  - `nvm` 源代码与项目文档
+  - `nvm` 底层依赖
+  - `nvm` 开发基础设施
+  - 安装了 `nvm` 的设备(含服务器)
 
-## Attack surface for external/internal attackers and services
+与 `nvm` 相关的威胁主体包括:
+  - 外部恶意攻击者
+  - 内部恶意攻击者
+  - 服务(services)
+  - 恶意内部人员
+  - 第三方库
 
-In threat modeling, an attack surface refers to any possible point of entry that an attacker might use to exploit a system or application.
-This includes all the paths and interfaces that an attacker may use to access, manipulate or extract sensitive data from a system.
-By understanding the attack surface, organizations are typically able to identify potential attack vectors and implement appropriate countermeasures to mitigate risks.
+## 外部/内部攻击者与服务的攻击面
 
-In the following diagrams, _External Malicious Attacker_ applies to threat actors who do not yet have direct access to the `nvm` application and the underlying operating system, while the _Internal Malicious Attacker_ applies to an attacker with access to the device (computer, server), potentially after successfully exploiting a threat from the _External Malicious Attacker_ scenario.
-**Please note that some of the external threats may be also exploitable from internal threats and vice versa.**
+在威胁建模中,攻击面指攻击者可能用来入侵系统或应用的任何入口。
+包括攻击者用于访问、篡改或窃取系统敏感数据的所有路径与接口。
+理解攻击面后,组织通常可以识别潜在攻击向量,并部署相应对策来降低风险。
 
-<img src="./external-threat-actor.png" alt="Fig.: Possible attacks from internal and external threat actors and services" />
-Fig.: Possible attacks from internal and external threat actors and services
+下图中,"外部恶意攻击者"指尚未直接接触 `nvm` 应用及其底层操作系统的威胁主体;"内部恶意攻击者"指已能访问设备(电脑、服务器)的攻击者,可能是外部攻击者成功突破后演变而来。
+**请注意:部分外部威胁同样可能由内部威胁发起,反之亦然。**
 
-## Identified threats
+(原文此处附图:Fig.: Possible attacks from internal and external threat actors and services,见 `./external-threat-actor.png`)
 
-The identified threats against the `nvm` application are as follows:
+## 已识别的威胁(外部/内部攻击者与服务)
 
-### Threat ID 1: `nvm` commands
+针对 `nvm` 应用识别出的威胁如下:
 
-Overview: The `nvm` commands and subcommands take user input for handling and executing appropriate functions from the project directory (or any parent directory).
-When user-controlled inputs are not adequately validated and later passed to the `nvm` functions as a part of a command, an attacker might be able to execute operating system commands triggered by any parsing functionality.
+### 威胁 ID 1:`nvm` 命令
 
-Possible Outcome: Attacks against `nvm` commands could lead to unauthorized access to user data or unauthorized access to the device (i.e. laptop or server, depending on where `nvm` is installed), resulting in loss of user private data stored on the device, among other possibilities.
+概述:`nvm` 命令与子命令会接收用户输入,从项目目录(或其任意父目录)调用并执行相应功能。
+当用户可控输入未经过充分校验,随后又作为命令的一部分传入 `nvm` 函数时,攻击者可能借由任意解析功能执行操作系统命令。
 
-Recommendation: Input validation should be implemented to prevent attackers from requesting operating system commands.
-Similarly, secure coding practices ought to be in place to minimize the risk of buffer overflow vulnerabilities.
+可能后果:针对 `nvm` 命令的攻击可导致用户数据被未授权访问,或设备(笔记本或服务器,取决于 `nvm` 安装位置)被未授权访问,造成设备上用户隐私数据泄露等后果。
 
-### Threat ID 2: URI scheme
+建议:应实施输入校验,防止攻击者请求执行操作系统命令。
+同时应遵循安全编码实践,尽量降低缓冲区溢出漏洞风险。
 
-Overview: `nvm` commands heavily use the [Secure HyperText Transfer](https://datatracker.ietf.org/doc/html/rfc2660) protocol for `nvm` related actions.
-Missing [scheme](https://datatracker.ietf.org/doc/html/rfc3986#section-3.1) validation for any `nvm` command might result in file retrieval, enumeration, file overwrite, or [path traversal](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/05-Authorization_Testing/01-Testing_Directory_Traversal_File_Include) attacks.
-An example of this could be path validation for [`nvm_download`](https://github.com/nvm-sh/nvm/blob/ef7fc2f2c06ad75fe7fbabf28d427561ae7b007d/nvm.sh#L118), among many other possibilities.
+### 威胁 ID 2:URI scheme
 
-Possible Outcome: Security misconfiguration flaws for URI scheme may lead to unauthorized access to user data, as well as data integrity compromises.
+概述:`nvm` 命令大量使用[安全超文本传输](https://datatracker.ietf.org/doc/html/rfc2660)协议完成相关操作。
+若 `nvm` 命令缺少对 [scheme](https://datatracker.ietf.org/doc/html/rfc3986#section-3.1) 的校验,可能导致文件读取、目录枚举、文件覆盖或[路径穿越](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/05-Authorization_Testing/01-Testing_Directory_Traversal_File_Include)攻击。
+例如针对 [`nvm_download`](https://github.com/nvm-sh/nvm/blob/ef7fc2f2c06ad75fe7fbabf28d427561ae7b007d/nvm.sh#L118) 的路径校验,以及更多类似场景。
 
-Recommendation: Adequate input validation should be implemented to prevent attackers from enumerating, retrieving and writing to application files and paths.
+可能后果:URI scheme 的安全配置缺陷可导致用户数据被未授权访问,以及数据完整性受损。
 
-### Threat ID 3: Communication channel
+建议:应实施充分的输入校验,防止攻击者枚举、读取或写入应用文件与路径。
 
-Overview: The `nvm` commands and its subcommands use network protocol to communicate with external services.
-Insecure communication may allow malicious attackers to perform [_Man-in-the-Middle_](https://owasp.org/www-community/attacks/Manipulator-in-the-middle_attack) attacks in order to manipulate the data sent during the users’ active connection.
+### 威胁 ID 3:通信信道
 
-Possible Outcome: Usage of plaintext communication protocols, like HTTP could lead to data sniffing and modification through insecure communications channels.
+概述:`nvm` 命令及其子命令通过网络协议与外部服务通信。
+不安全的通信可能让恶意攻击者实施[中间人攻击](https://owasp.org/www-community/attacks/Manipulator-in-the-middle_attack),篡改用户连接期间传输的数据。
 
-Recommendation: Mitigation countermeasures such as data encryption should be in place to prevent data manipulation via insecure communication channels.
+可能后果:使用 HTTP 等明文通信协议,可能导致数据经由不安全信道被窃听和篡改。
 
-### Threat ID 4: Environment variables
+建议:应部署数据加密等缓解对策,防止数据经由不安全通信信道被篡改。
 
-Overview: Each `nvm` installation defines its environment variables, which should be secured from internal malicious attackers, preventing access control attack vectors.
-Missing stringent restrictions on setting variables, might allow attackers to prepare various targeted attacks against other local users, who use `nvm` in their user space.
-For example, [_Privilege Escalation_](https://owasp.org/Top10/A01_2021-Broken_Access_Control/), [_Command Injection_](https://cwe.mitre.org/data/definitions/77.html), as well as many other parser-related attacks.
+### 威胁 ID 4:环境变量
 
-Possible Outcome: Attacks against environment variables could lead to unauthorized access to the user space, resulting in the loss of user private data and disruptions in service availability.
+概述:每个 `nvm` 安装都会定义自己的环境变量,这些变量应防止被内部恶意攻击者操纵,避免形成访问控制攻击面。
+若对变量设置缺乏严格限制,攻击者可能针对在同一用户空间使用 `nvm` 的其他本地用户,构造多种定向攻击。
+例如[权限提升](https://owasp.org/Top10/A01_2021-Broken_Access_Control/)、[命令注入](https://cwe.mitre.org/data/definitions/77.html)等大量与解析器相关的攻击。
 
-Recommendation: Adequate hardening of configuration file permissions should be in place for all relevant configuration files, as this provides protection against attackers able to manipulate variables and inject malicious code.
+可能后果:针对环境变量的攻击可导致用户空间被未授权访问,造成用户隐私数据丢失以及服务可用性中断。
 
-## Attack surface for malicious insider actors and third-party libraries
+建议:应对所有相关配置文件实施足够的权限加固,以防范能够操纵变量并注入恶意代码的攻击者。
 
-The following diagram summarizes the main possible threats against the `nvm` project from malicious insider actors and third-party libraries:
+## 恶意内部人员与第三方库的攻击面
 
-<img src="./insider-threat-actor-and-libs.png" alt="Fig.: Possible attacks from insider threat actors and third-party libraries" />
-Fig.: Possible attacks from insider threat actors and third-party libraries
+下图概括了针对 `nvm` 项目的主要威胁(来自恶意内部人员与第三方库):
 
-The identified threats against the `nvm` project are as follows:
+(原文此处附图:Fig.: Possible attacks from insider threat actors and third-party libraries,见 `./insider-threat-actor-and-libs.png`)
 
-### Threat ID 1: Insider threat actor
+针对 `nvm` 项目识别出的威胁如下:
 
-**Overview**: An insider threat actor, such as an `nvm` project contributor or employee with access to the code base, might abuse their role in the organization to modify the `nvm` application source code.
-For example, intentionally adding malicious code snippets, clearing logs after being written and/or modifying specific sections of the documentation.
+### 威胁 ID 1:内部威胁主体
 
-**Possible Outcome**: Reputation damage, financial losses.
+**概述**:内部威胁主体(如可访问代码库的 `nvm` 项目贡献者或员工)可能滥用其组织内角色,篡改 `nvm` 应用源码。
+例如:故意植入恶意代码片段、在日志写入后清除日志,和/或篡改文档的特定章节。
 
-**Recommendation**: Secure coding practices, code reviews, automated code scanning and separation of duties (i.e. requiring at least two developers to approve any code change) are potentially useful security controls to identify and mitigate vulnerabilities that may be introduced by an insider threat actor.
+**可能后果**:声誉受损、经济损失。
 
-### Threat ID 2: Third-party libraries
+**建议**:安全编码实践、代码评审、自动化代码扫描与职责分离(即要求至少两名开发者批准任何代码变更),是识别并缓解内部威胁所引入漏洞的有效安全控制。
 
-**Overview**: Please note that while `nvm` does not currently make use of any third-party libraries, this might become an attack vector if that changes in the future.
-Third-party libraries may introduce potential risks related to maintaining security requirements by third-party vendors.
-As a result, third-party libraries used by the `nvm` project, might contain vulnerabilities, such as [_Buffer Overflows_](https://owasp.org/www-community/vulnerabilities/Buffer_Overflow), [_Format String Vulnerabilities_](https://owasp.org/www-community/attacks/Format_string_attack), as well as many other types of weaknesses that, in a worst-case scenario may lead to _Remote Code Execution_ (_RCE_).
-Additionally, the maintainer of a third-party dependency might introduce a vulnerability on purpose, or be compromised by an attacker that subsequently introduces vulnerable code.
+### 威胁 ID 2:第三方库
 
-**Possible Outcome**: Code vulnerabilities may lead to unauthorized access to user data, loss of user private data, service disruptions and reputation damage.
+**概述**:请注意,`nvm` 目前不使用任何第三方库,但未来一旦引入就可能成为攻击向量。
+第三方库可能带来与第三方供应商维护安全要求相关的潜在风险。
+因此,`nvm` 项目使用的第三方库可能包含[缓冲区溢出](https://owasp.org/www-community/vulnerabilities/Buffer_Overflow)、[格式化字符串漏洞](https://owasp.org/www-community/attacks/Format_string_attack)等许多类型的弱点,最坏情况下可导致远程代码执行(RCE)。
+此外,第三方依赖的维护者可能故意植入漏洞,或被攻击者攻陷后引入含漏洞的代码。
 
-**Recommendation**: Third-party libraries should be kept up-to-date, applying patches to address publicly known vulnerabilities in a timely fashion.
-Monitoring and logging capabilities should also be in place to detect and respond to potential attacks.
-SLSA compliance may also be considered for further supply chain security hardening.
+**可能后果**:代码漏洞可导致用户数据被未授权访问、用户隐私数据丢失、服务中断和声誉受损。
 
-## Trust boundary: mirror payloads vs. mirror metadata
+**建议**:应保持第三方库为最新版本,及时打补丁修复公开已知的漏洞。
+同时应具备监控与日志能力,以便检测并响应潜在攻击。
+也可考虑符合 SLSA 要求,进一步强化供应链安全。
 
-`nvm` fetches two very different kinds of data from a Node.js/io.js mirror (`nodejs.org`/`iojs.org` by default, or whatever `$NVM_NODEJS_ORG_MIRROR` and `$NVM_IOJS_ORG_MIRROR` point at), and they sit on opposite sides of a trust boundary:
+## 信任边界:镜像载荷 vs. 镜像元数据
 
-  - **Payloads** — the Node.js/io.js binaries and source tarballs that `nvm install` downloads, unpacks, compiles (for source installs), and runs.
-  - **Metadata** — everything `nvm` parses *about* those payloads rather than executing: the `index.tab` version list (including each release's LTS codename), and the `SHASUMS`/`SHASUMS256` checksum files.
+`nvm` 会从 Node.js/io.js 镜像(默认为 `nodejs.org`/`iojs.org`,或 `$NVM_NODEJS_ORG_MIRROR` 与 `$NVM_IOJS_ORG_MIRROR` 所指向的地址)获取两类截然不同的数据,它们分处一条信任边界的两侧:
 
-Conflating the two leads to mis-scoped reports, so the project draws the line explicitly.
+  - **载荷(Payloads)** —— `nvm install` 下载、解压、编译(源码安装时)并运行的 Node.js/io.js 二进制包与源码包。
+  - **元数据(Metadata)** —— `nvm` 解析的关于载荷的一切信息(而非执行的内容):`index.tab` 版本列表(含各版本的 LTS 代号),以及 `SHASUMS`/`SHASUMS256` 校验和文件。
 
-### Payloads are trusted, by construction
+把二者混为一谈会导致漏洞报告范围错位,因此项目对这条界线作出了明确划分。
 
-The entire purpose of `nvm` is to download a mirror's build of Node.js and run it.
-A mirror that serves a backdoored binary has arbitrary code execution the moment you `nvm install` and invoke `node`, and no validation inside `nvm` can prevent that - you have chosen to execute that code.
-Installing from source (`nvm install -s`) is if anything more direct: the mirror-supplied source tarball is unpacked and its `configure`/`make` build runs arbitrary code on your machine *at install time*, before `node` is ever invoked.
-Checksum verification protects **integrity** (a corrupted or truncated download, or a network intermediary that cannot also forge the same-origin `SHASUMS`), not **authenticity** against the mirror itself, since the checksums come from the same origin as the payload.
-Selecting a mirror is therefore equivalent to selecting whom you trust for arbitrary code execution in your account.
-A malicious payload from the configured mirror is consequently **out of scope**: no privilege boundary is crossed, so there is no privilege to escalate.
+### 载荷在构造上即为受信任的
 
-### Metadata is not trusted
+`nvm` 的全部意义就在于下载镜像构建的 Node.js 并运行它。
+一个提供后门二进制的镜像,在你执行 `nvm install` 并调用 `node` 的那一刻就获得了任意代码执行能力,`nvm` 内部的任何校验都无法阻止——因为你已经选择执行该代码。
+从源码安装(`nvm install -s`)甚至更直接:镜像提供的源码包被解压后,其 `configure`/`make` 构建过程在安装时就已在你的机器上执行任意代码,远早于 `node` 被调用。
+校验和验证保护的是**完整性**(下载损坏或截断,或无法同时伪造同源 `SHASUMS` 的网络中间人),而非针对镜像本身的**真实性**,因为校验和与载荷来自同一来源。
+因此,选择镜像就等同于选择"你信任谁在你的账户中执行任意代码"。
+来自所配置镜像的恶意载荷因此**不在范围内**:没有跨越任何权限边界,自然也就不存在可提升的权限。
 
-Parsing a version list is a pure data operation.
-A user who runs `nvm ls-remote` to browse available versions - and installs nothing - has not opted into running any code from the mirror.
-Metadata can also be attacker-controlled with no mirror misconfiguration at all, via a compromised mirror/CDN or a man-in-the-middle of the channel (see *Threat ID 3*), so it is treated as hostile input.
-The invariant `nvm` maintains is:
+### 元数据不受信任
 
-> Mirror-supplied metadata must never reach a shell/command evaluator, an `awk`/`sed` program body, or an unvalidated filesystem path (see *Threat ID 2*).
+解析版本列表是纯数据操作。
+运行 `nvm ls-remote` 浏览可用版本(且未安装任何东西)的用户,并没有选择运行来自镜像的任何代码。
+元数据还可能在镜像配置完全无误的情况下被攻击者控制——经由被攻陷的镜像/CDN 或信道的中间人(见*威胁 ID 3*),因此它被视为敌意输入。
+`nvm` 维持的不变式是:
 
-This is why version strings from `index.tab` are passed to the downloader as literal `argv` elements rather than re-parsed by the shell ([CVE-2026-10796](https://github.com/advisories/GHSA-3c52-35h2-gfmm), [CVE-2026-1665](https://github.com/advisories/GHSA-4fc5-r4vr-8rp7)); why checksum comparisons pass the mirror's values as `awk -v` **data** and never as program text; and why LTS codenames are constrained to safe alias filenames before naming a file under `$NVM_DIR/alias/lts`, so a hostile codename such as `../../../.bashrc` cannot traverse out of the alias directory.
+> 镜像提供的元数据绝不能进入 shell/命令求值器、`awk`/`sed` 程序体,或未经校验的文件系统路径(见*威胁 ID 2*)。
 
-The point is not that metadata is "more dangerous" than a payload — a trusted payload can obviously do anything.
-It is that metadata carries **no** implied grant of code execution, so any code-execution or arbitrary-write primitive reachable purely by parsing it is a defect worth removing on its own merits, independent of how much the payload channel is trusted.
+这就是为什么来自 `index.tab` 的版本字符串以字面 `argv` 元素的形式传给下载器,而不是交由 shell 重新解析([CVE-2026-10796](https://github.com/advisories/GHSA-3c52-35h2-gfmm)、[CVE-2026-1665](https://github.com/advisories/GHSA-4fc5-r4vr-8rp7));为什么校验和比较把镜像的值作为 `awk -v` 的**数据**传入而绝不做程序文本;以及为什么 LTS 代号在用于 `$NVM_DIR/alias/lts` 下的文件名之前,会被约束为安全的别名文件名,使 `../../../.bashrc` 这类恶意代号无法穿越出别名目录。
+
+关键不在于元数据比载荷"更危险"——受信任的载荷显然可以为所欲为。
+而在于元数据**不携带**任何代码执行授权,因此任何仅凭解析元数据即可达成的代码执行或任意写入原语,本身就是一个值得消除的缺陷,与载荷信道受多大信任无关。

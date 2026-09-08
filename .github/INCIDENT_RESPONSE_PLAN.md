@@ -1,117 +1,118 @@
-# Incident Response Process for **nvm**
+# **nvm** 事件响应流程
 
-## Reporting a Vulnerability
+> 🌐 本文档由 [nvm-sh/nvm](https://github.com/nvm-sh/nvm) 翻译,英文原版见原项目。
 
-We take the security of **nvm** very seriously. If you believe you’ve found a security vulnerability, please inform us responsibly through coordinated disclosure.
+## 报告漏洞
 
-### How to Report
+我们非常重视 **nvm** 的安全。如果你认为自己发现了安全漏洞,请通过协调披露(coordinated disclosure)的方式负责任地告知我们。
 
-> **Do not** report security vulnerabilities through public GitHub issues, discussions, or social media.
+### 如何报告
 
-Instead, please use one of these secure channels:
+> **切勿**通过公开的 GitHub issue、discussions 或社交媒体报告安全漏洞。
 
-1. **GitHub Security Advisories**
-    Use the **Report a vulnerability** button in the Security tab of the [nvm-sh/nvm repository](https://github.com/nvm-sh/nvm).
+请改用以下任一安全渠道:
 
-2. **Email**
-    Follow the posted [Security Policy](https://github.com/nvm-sh/nvm/security/policy).
+1. **GitHub Security Advisories(安全通告)**
+    使用 [nvm-sh/nvm 仓库](https://github.com/nvm-sh/nvm) Security 标签页中的 **Report a vulnerability** 按钮。
 
-### What to Include
+2. **电子邮件**
+    按照公布的[安全策略](https://github.com/nvm-sh/nvm/security/policy)操作。
 
-**Required Information:**
-- Brief description of the vulnerability type
-- Affected version(s) and components
-- Steps to reproduce the issue
-- Impact assessment (what an attacker could achieve)
+### 应包含的内容
 
-**Helpful Additional Details:**
-- Full paths of affected scripts or files
-- Specific commit or branch where the issue exists
-- Required configuration to reproduce
-- Proof-of-concept code (if available)
-- Suggested mitigation or fix
+**必填信息:**
+- 漏洞类型的简要描述
+- 受影响的版本与组件
+- 问题复现步骤
+- 影响评估(攻击者可能达成什么)
 
-## Our Response Process
+**有助于处理的补充信息:**
+- 受影响脚本或文件的完整路径
+- 问题所在的具体 commit 或分支
+- 复现所需的配置
+- 概念验证代码(如有)
+- 建议的缓解或修复方案
 
-**Timeline Commitments:**
-- **Initial acknowledgment**: Within 24 hours
-- **Detailed response**: Within 3 business days
-- **Status updates**: Every 7 days until resolved
-- **Resolution target**: 90 days for most issues
+## 我们的响应流程
 
-**What We’ll Do:**
-1. Acknowledge your report and assign a tracking ID
-2. Assess the vulnerability and determine severity
-3. Develop and test a fix
-4. Coordinate disclosure timeline with you
-5. Release a security update and publish an advisory and CVE
-6. Credit you in our security advisory (if desired)
+**时限承诺:**
+- **首次确认**:24 小时内
+- **详细回复**:3 个工作日内
+- **状态更新**:每 7 天一次,直至解决
+- **解决目标**:多数问题在 90 天内解决
 
-## Disclosure Policy
+**我们会做什么:**
+1. 确认收到你的报告,并分配跟踪 ID
+2. 评估漏洞并确定严重等级
+3. 开发并测试修复方案
+4. 与你协商披露时间表
+5. 发布安全更新,并发布安全通告和 CVE
+6. 在安全通告中致谢你(如你愿意)
 
-- **Coordinated disclosure**: We’ll work with you on timing
-- **Typical timeline**: 90 days from report to public disclosure
-- **Early disclosure**: If actively exploited
-- **Delayed disclosure**: For complex issues
+## 披露政策
 
-## Scope
+- **协调披露**:我们会与你协商披露时机
+- **典型周期**:从报告到公开披露 90 天
+- **提前披露**:若漏洞已被在野利用
+- **延后披露**:针对特别复杂的问题
 
-**In Scope:**
-- **nvm** project (all supported versions)
-- Installation and update scripts (`install.sh`, `nvm.sh`)
-- Official documentation and CI/CD integrations
-- Dependencies with direct security implications
+## 范围
 
-**Out of Scope:**
-- Third-party forks or mirrors
-- Platform-specific installs outside core scripts
-- Social engineering or physical attacks
-- Theoretical vulnerabilities without practical exploitation
+**在范围内:**
+- **nvm** 项目(所有受支持版本)
+- 安装与更新脚本(`install.sh`、`nvm.sh`)
+- 官方文档与 CI/CD 集成
+- 具有直接安全影响的依赖
 
-## Security Measures
+**不在范围内:**
+- 第三方 fork 或镜像
+- 核心脚本之外的平台特定安装方式
+- 社会工程或物理攻击
+- 无实际利用价值的理论性漏洞
 
-**Our Commitments:**
-- Regular vulnerability scanning via GitHub Actions
-- Automated security checks in CI/CD pipelines
-- Secure scripting practices and mandatory code review
-- Prompt patch releases for critical issues
+## 安全措施
 
-**User Responsibilities:**
-- Keep **nvm** updated
-- Verify script downloads via PGP signatures
-- Follow secure configuration guidelines for shell environments
+**我们的承诺:**
+- 通过 GitHub Actions 定期进行漏洞扫描
+- 在 CI/CD 流水线中自动执行安全检查
+- 安全的脚本编写实践与强制代码评审
+- 针对严重问题及时发布补丁版本
 
-## Legal Safe Harbor
+**用户责任:**
+- 保持 **nvm** 为最新版本
+- 通过 PGP 签名校验脚本下载
+- 遵循 shell 环境的安全配置指引
 
-**We will NOT:**
-- Initiate legal action
-- Contact law enforcement
-- Suspend or terminate your access
+## 法律安全港
 
-**You must:**
-- Only test against your own installations
-- Not access, modify, or delete user data
-- Not degrade service availability
-- Not publicly disclose before coordinated disclosure
-- Act in good faith
+**我们承诺不会:**
+- 提起法律诉讼
+- 联系执法部门
+- 暂停或终止你的访问权限
 
-## Recognition
+**你必须:**
+- 仅针对自己的安装环境进行测试
+- 不得访问、修改或删除用户数据
+- 不得降低服务可用性
+- 不得在协调披露之前公开披露
+- 出于善意行事
 
-- **Advisory Credits**: Credit in GitHub Security Advisories (unless anonymous)
+## 致谢
 
-## Security Updates
+- **通告致谢**:在 GitHub Security Advisories 中署名致谢(除非要求匿名)
 
-**Stay Informed:**
-- Subscribe to GitHub releases for **nvm**
-- Enable GitHub Security Advisory notifications
+## 安全更新
 
-**Update Process:**
-- Patch releases (e.g., v0.40.3 → v0.40.4)
-- Out-of-band releases for critical issues
-- Advisories via GitHub Security Advisories
+**保持关注:**
+- 订阅 **nvm** 的 GitHub releases
+- 开启 GitHub Security Advisory 通知
 
-## Contact Information
+**更新流程:**
+- 补丁版本发布(如 v0.40.3 → v0.40.4)
+- 针对严重问题的临时加发版本
+- 通过 GitHub Security Advisories 发布通告
 
-- **Security reports**: Security tab of [nvm-sh/nvm](https://github.com/nvm-sh/nvm/security)
-- **General inquiries**: GitHub Discussions or Issues
+## 联系方式
 
+- **安全报告**:[nvm-sh/nvm](https://github.com/nvm-sh/nvm/security) 的 Security 标签页
+- **一般咨询**:GitHub Discussions 或 Issues

@@ -1,190 +1,194 @@
-# nvm Coding Agent Instructions
+# nvm 编码代理指南
 
-This document provides guidance for AI coding agents when working with the Node Version Manager (nvm) codebase.
+> 🌐 本文档由 [nvm-sh/nvm](https://github.com/nvm-sh/nvm) 翻译,英文原版见原项目。
+>
+> ℹ️ 注:原文超过 10000 字符,本页为全文翻译;所有命令与代码块保持原样。
 
-## Overview
+本文档为 AI 编码代理在处理 Node 版本管理器(nvm)代码库时提供指导。
 
-nvm is a version manager for Node.js, implemented as a POSIX-compliant function that works across multiple shells (sh, dash, bash, ksh, zsh). The codebase is primarily written in shell script and emphasizes portability and compatibility.
+## 概述
 
-### Core Architecture
+nvm 是一个 Node.js 版本管理器,实现为一个符合 POSIX 标准的函数,可跨多种 shell(sh、dash、bash、ksh、zsh)工作。代码库以 shell 脚本为主,强调可移植性与兼容性。
 
-- **Main script**: `nvm.sh` - Contains all core functionality and the main `nvm()` function
-- **Installation script**: `install.sh` - Handles downloading and installing nvm itself
-- **Execution wrapper**: `nvm-exec` - Allows running commands with specific Node.js versions
-- **Bash completion**: `bash_completion` - Provides tab completion for bash users
-- **Tests**: Comprehensive test suite in `test/` directory using the [urchin](https://www.npmjs.com/package/urchin) test framework
+### 核心架构
 
-## Key Files and Their Purposes
+- **主脚本**:`nvm.sh` - 包含全部核心功能与主 `nvm()` 函数
+- **安装脚本**:`install.sh` - 负责下载并安装 nvm 自身
+- **执行包装器**:`nvm-exec` - 允许以指定的 Node.js 版本运行命令
+- **Bash 补全**:`bash_completion` - 为 bash 用户提供 Tab 补全
+- **测试**:完整测试套件位于 `test/` 目录,使用 [urchin](https://www.npmjs.com/package/urchin) 测试框架
+
+## 关键文件及其用途
 
 ### `nvm.sh`
-The core functionality file containing:
-- Main `nvm()` function (starts around line 3000)
-- All internal helper functions (prefixed with `nvm_`)
-- Command implementations for install, use, ls, etc.
-- Shell compatibility logic
-- POSIX compliance utilities
+核心功能文件,包含:
+- 主 `nvm()` 函数(约第 3000 行起)
+- 所有内部辅助函数(以 `nvm_` 为前缀)
+- install、use、ls 等命令的实现
+- shell 兼容性逻辑
+- POSIX 兼容工具函数
 
 ### `install.sh`
-Handles nvm installation via curl/wget/git:
-- Downloads nvm from GitHub
-- Sets up directory structure
-- Configures shell integration
-- Supports both git clone and script download methods
+通过 curl/wget/git 处理 nvm 安装:
+- 从 GitHub 下载 nvm
+- 建立目录结构
+- 配置 shell 集成
+- 同时支持 git clone 与脚本下载两种方式
 
 ### `nvm-exec`
-Simple wrapper script that:
-- Sources nvm.sh with `--no-use` flag
-- Switches to specified Node version via `NODE_VERSION` env var or `.nvmrc`
-- Executes the provided command with that Node version
+简单的包装脚本,作用:
+- 以 `--no-use` 标志 source nvm.sh
+- 通过 `NODE_VERSION` 环境变量或 `.nvmrc` 切换到指定 Node 版本
+- 以该 Node 版本执行所给命令
 
-## Top-Level nvm Commands and Internal Functions
+## 顶层 nvm 命令与内部函数
 
-### Core Commands
+### 核心命令
 
 #### `nvm install [version]`
-- **Internal functions**: `nvm_install_binary()`, `nvm_install_source()`, `nvm_download_artifact()`
-- Downloads and installs specified Node.js version
-- Automatically `nvm use`s that version after installation
-- Supports LTS versions, version ranges, and built-in aliases (like `node`, `stable`) and user-defined aliases
-- Can install from binary or compile from source
-- When compiling from source, accepts additional arguments that are passed to the compilation task
+- **内部函数**:`nvm_install_binary()`、`nvm_install_source()`、`nvm_download_artifact()`
+- 下载并安装指定的 Node.js 版本
+- 安装完成后自动 `nvm use` 该版本
+- 支持 LTS 版本、版本范围、内置别名(如 `node`、`stable`)以及用户自定义别名
+- 可安装二进制包,也可从源码编译
+- 从源码编译时,可接受附加参数并传递给编译任务
 
 #### `nvm use [version]`
-- **Internal functions**: `nvm_resolve_alias()`, `nvm_version_path()`, `nvm_change_path()`
-- Switches current shell to use specified Node.js version
-- Updates PATH environment variable
-- Supports `.nvmrc` file integration
+- **内部函数**:`nvm_resolve_alias()`、`nvm_version_path()`、`nvm_change_path()`
+- 将当前 shell 切换到指定的 Node.js 版本
+- 更新 PATH 环境变量
+- 支持集成 `.nvmrc` 文件
 
 #### `nvm ls [pattern]`
-- **Internal functions**: `nvm_ls()`, `nvm_tree_contains_path()`
-- Lists installed Node.js versions
-- Supports pattern matching and filtering
-- Shows current version and aliases
+- **内部函数**:`nvm_ls()`、`nvm_tree_contains_path()`
+- 列出已安装的 Node.js 版本
+- 支持模式匹配与过滤
+- 显示当前版本与别名
 
 #### `nvm ls-remote [pattern]`
-- **Internal functions**: `nvm_ls_remote()`, `nvm_download()`, `nvm_ls_remote_index_tab()`
-- Lists available Node.js versions from nodejs.org and iojs.org, or the env-var-configured mirrors
-- Supports LTS filtering and pattern matching
-- Downloads version index on-demand
+- **内部函数**:`nvm_ls_remote()`、`nvm_download()`、`nvm_ls_remote_index_tab()`
+- 列出 nodejs.org 与 iojs.org(或环境变量配置的镜像)上的可用 Node.js 版本
+- 支持 LTS 过滤与模式匹配
+- 按需下载版本索引
 
 #### `nvm alias [name] [version]`
-- **Internal functions**: `nvm_alias()`, `nvm_alias_path()`
-- Creates text files containing the mapped version, named as the alias name
-- Special aliases: `default`, `node`, `iojs`, `stable`, `unstable` (note: `stable` and `unstable` are deprecated, from node's pre-v1 release plan)
-- Stored in `$NVM_DIR/alias/` directory
+- **内部函数**:`nvm_alias()`、`nvm_alias_path()`
+- 创建以别名命名、内容为映射版本的文本文件
+- 特殊别名:`default`、`node`、`iojs`、`stable`、`unstable`(注意:`stable` 与 `unstable` 已弃用,源自 node v1 之前的发布计划)
+- 存放于 `$NVM_DIR/alias/` 目录
 
 #### `nvm current`
-- **Internal functions**: `nvm_ls_current()`
-- Shows currently active Node.js version
-- Returns "system" if using system Node.js
+- **内部函数**:`nvm_ls_current()`
+- 显示当前激活的 Node.js 版本
+- 若使用系统 Node.js,则返回 "system"
 
 #### `nvm which [version]`
-- **Internal functions**: `nvm_version_path()`, `nvm_resolve_alias()`
-- Shows path to specified Node.js version
-- Resolves aliases and version strings
+- **内部函数**:`nvm_version_path()`、`nvm_resolve_alias()`
+- 显示指定 Node.js 版本的可执行文件路径
+- 解析别名与版本字符串
 
-### Utility Commands
+### 工具命令
 
 #### `nvm cache clear|dir`
-- Cache management for downloaded binaries and source code
-- Clears or shows cache directory path
+- 管理已下载二进制与源码的缓存
+- 清空缓存或显示缓存目录路径
 
 #### `nvm debug`
-- Diagnostic information for troubleshooting
-- Shows environment, tool versions, and paths
+- 用于排查问题的诊断信息
+- 显示环境、工具版本与路径
 
 #### `nvm deactivate`
-- Removes nvm modifications from current shell
-- Restores original PATH
+- 移除 nvm 对当前 shell 的修改
+- 恢复原始 PATH
 
 #### `nvm unload`
-- Completely removes nvm from shell environment
-- Unsets all nvm functions and variables
+- 将 nvm 从 shell 环境中彻底移除
+- 取消设置所有 nvm 函数与变量
 
-### Internal Function Categories
+### 内部函数分类
 
-#### Version Resolution
-- `nvm_resolve_alias()` - Resolves aliases to version numbers
-- `nvm_version()` - Finds best matching local version
-- `nvm_remote_version()` - Finds best matching remote version
-- `nvm_normalize_version()` - Standardizes version strings
-- `nvm_version_greater()` - Compares version numbers
-- `nvm_version_greater_than_or_equal_to()` - Version comparison with equality
-- `nvm_get_latest()` - Gets latest version from a list
+#### 版本解析
+- `nvm_resolve_alias()` - 将别名解析为版本号
+- `nvm_version()` - 查找最匹配的本地版本
+- `nvm_remote_version()` - 查找最匹配的远程版本
+- `nvm_normalize_version()` - 规范化版本字符串
+- `nvm_version_greater()` - 比较版本号大小
+- `nvm_version_greater_than_or_equal_to()` - 带相等判断的版本比较
+- `nvm_get_latest()` - 从列表中获取最新版本
 
-#### Installation Helpers
-- `nvm_install_binary()` - Downloads and installs precompiled binaries
-- `nvm_install_source()` - Compiles Node.js from source
-- `nvm_download_artifact()` - Downloads tarballs or binaries
-- `nvm_compute_checksum()` - Verifies download integrity
-- `nvm_checksum()` - Checksum verification wrapper
-- `nvm_get_mirror()` - Gets appropriate download mirror
-- `nvm_get_arch()` - Determines system architecture
+#### 安装辅助
+- `nvm_install_binary()` - 下载并安装预编译二进制包
+- `nvm_install_source()` - 从源码编译 Node.js
+- `nvm_download_artifact()` - 下载压缩包或二进制包
+- `nvm_compute_checksum()` - 校验下载完整性
+- `nvm_checksum()` - 校验和验证包装器
+- `nvm_get_mirror()` - 获取相应的下载镜像
+- `nvm_get_arch()` - 判断系统架构
 
-#### Path Management
-- `nvm_change_path()` - Updates PATH for version switching
-- `nvm_strip_path()` - Removes nvm paths from PATH
-- `nvm_version_path()` - Gets installation path for version
-- `nvm_version_dir()` - Gets version directory name
-- `nvm_prepend_path()` - Safely prepends to PATH
+#### 路径管理
+- `nvm_change_path()` - 版本切换时更新 PATH
+- `nvm_strip_path()` - 从 PATH 中移除 nvm 路径
+- `nvm_version_path()` - 获取某版本的安装路径
+- `nvm_version_dir()` - 获取版本目录名
+- `nvm_prepend_path()` - 安全地前插 PATH
 
-#### Shell Detection and Compatibility
-- `nvm_is_zsh()` - Shell detection for zsh
-- `nvm_is_iojs_version()` - Checks if version is io.js
-- `nvm_get_os()` - Operating system detection
-- `nvm_supports_source_options()` - Checks if shell supports source options
+#### Shell 检测与兼容性
+- `nvm_is_zsh()` - 检测 zsh shell
+- `nvm_is_iojs_version()` - 判断版本是否为 io.js
+- `nvm_get_os()` - 检测操作系统
+- `nvm_supports_source_options()` - 检查 shell 是否支持 source 选项
 
-#### Network and Remote Operations
-- `nvm_download()` - Generic download function
-- `nvm_ls_remote()` - Lists remote versions
-- `nvm_ls_remote_iojs()` - Lists remote io.js versions
-- `nvm_ls_remote_index_tab()` - Parses remote version index
+#### 网络与远程操作
+- `nvm_download()` - 通用下载函数
+- `nvm_ls_remote()` - 列出远程版本
+- `nvm_ls_remote_iojs()` - 列出远程 io.js 版本
+- `nvm_ls_remote_index_tab()` - 解析远程版本索引
 
-#### Utility Functions
-- `nvm_echo()`, `nvm_err()` - Output functions
-- `nvm_has()` - Checks if command exists
-- `nvm_sanitize_path()` - Cleans sensitive data from paths
-- `nvm_die_on_prefix()` - Validates npm prefix settings
-- `nvm_ensure_default_set()` - Ensures default alias is set
-- `nvm_auto()` - Automatic version switching from .nvmrc
+#### 工具函数
+- `nvm_echo()`、`nvm_err()` - 输出函数
+- `nvm_has()` - 检查命令是否存在
+- `nvm_sanitize_path()` - 清理路径中的敏感数据
+- `nvm_die_on_prefix()` - 校验 npm prefix 设置
+- `nvm_ensure_default_set()` - 确保已设置 default 别名
+- `nvm_auto()` - 依据 .nvmrc 自动切换版本
 
-#### Alias Management
-- `nvm_alias()` - Creates or lists aliases
-- `nvm_alias_path()` - Gets path to alias file
-- `nvm_unalias()` - Removes aliases
-- `nvm_resolve_local_alias()` - Resolves local aliases
+#### 别名管理
+- `nvm_alias()` - 创建或列出别名
+- `nvm_alias_path()` - 获取别名文件路径
+- `nvm_unalias()` - 删除别名
+- `nvm_resolve_local_alias()` - 解析本地别名
 
-#### Listing and Display
-- `nvm_ls()` - Lists local versions
-- `nvm_ls_current()` - Shows current version
-- `nvm_tree_contains_path()` - Checks if path is in nvm tree
-- `nvm_format_version()` - Formats version display
+#### 列举与显示
+- `nvm_ls()` - 列出本地版本
+- `nvm_ls_current()` - 显示当前版本
+- `nvm_tree_contains_path()` - 检查路径是否位于 nvm 树内
+- `nvm_format_version()` - 格式化版本显示
 
-## Running Tests
+## 运行测试
 
-### Test Framework
-nvm uses the [urchin](https://www.npmjs.com/package/urchin) test framework for shell script testing.
+### 测试框架
+nvm 使用 [urchin](https://www.npmjs.com/package/urchin) 测试框架进行 shell 脚本测试。
 
-### Test Structure
+### 测试结构
 ```
 test/
-├── fast/           # Quick unit tests
-├── slow/           # Integration tests
-├── sourcing/       # Shell sourcing tests
-├── install_script/ # Installation script tests
-├── installation_node/ # Node installation tests
-├── installation_iojs/ # io.js installation tests
-└── common.sh       # Shared test utilities
+├── fast/           # 快速单元测试
+├── slow/           # 集成测试
+├── sourcing/       # shell source 测试
+├── install_script/ # 安装脚本测试
+├── installation_node/ # Node 安装测试
+├── installation_iojs/ # io.js 安装测试
+└── common.sh       # 共享测试工具
 ```
 
-### Running Tests
+### 运行测试
 
-#### Install Dependencies
+#### 安装依赖
 ```bash
 npm install  # Installs urchin, semver, and replace tools
 ```
 
-#### Run All Tests
+#### 运行全部测试
 ```bash
 npm test               # Runs tests in the current shell only (sh, bash, dash, zsh)
 make test              # Runs tests in default shells (sh, bash, dash, zsh)
@@ -195,7 +199,7 @@ make test-zsh          # Runs tests only in zsh
 make SHELLS=ksh test   # Runs tests only in ksh (experimental, see issue #574)
 ```
 
-#### Run Specific Test Suites
+#### 运行指定测试套件
 ```bash
 npm run test/fast                # Runs fast tests in the current shell
 npm run test/slow                # Runs slow tests in the current shell
@@ -209,7 +213,7 @@ make TEST_SUITE=slow test        # Only slow tests
 make SHELLS=bash test            # Only bash shell
 ```
 
-#### Individual Test Execution
+#### 运行单个测试
 ```bash
 ./test/fast/Unit\ tests/nvm_get_arch     # Run single test (WARNING: This will exit/terminate your current shell session)
 ./node_modules/.bin/urchin test/fast/                        # Run fast test suite
@@ -221,7 +225,7 @@ make SHELLS=bash test            # Only bash shell
 ./node_modules/.bin/urchin test/installation_iojs/           # Run io.js installation test suite
 ```
 
-#### Linting and Docs Checks
+#### Lint 与文档检查
 ```bash
 npm run eclint               # Checks EditorConfig compliance
 npm run doctoc:check         # Verifies README table of contents
@@ -231,24 +235,24 @@ npm run test:check-nonexec   # Checks non-test files don't have executable permi
 npm run markdown-link-check  # Validates markdown links (requires markdown-link-check)
 ```
 
-### Test Writing Guidelines
-- Tests should work across all supported shells (sh, bash, dash, zsh, ksh)
-- Define and use a `die()` function for test failures
-- Clean up after tests in cleanup functions
-- Mock external dependencies when needed
-- Place mocks in `test/mocks/` directory
-- Mock files should only be updated by the existing `update_test_mocks.sh` script, and any new mocks must be added to this script
+### 测试编写准则
+- 测试应在所有受支持的 shell(sh、bash、dash、zsh、ksh)中可运行
+- 定义并使用 `die()` 函数处理测试失败
+- 在 cleanup 函数中完成测试后的清理
+- 必要时对外部依赖进行 mock
+- mock 文件放在 `test/mocks/` 目录
+- mock 文件只能通过现有的 `update_test_mocks.sh` 脚本更新,任何新增 mock 都必须加入该脚本
 
-## Shell Environment Setup
+## Shell 环境搭建
 
-### Supported Shells
-- **bash** - Full feature support
-- **zsh** - Full feature support
-- **dash** - Basic POSIX support
-- **sh** - Basic POSIX support
-- **ksh** - Limited support (experimental)
+### 受支持的 Shell
+- **bash** - 完整功能支持
+- **zsh** - 完整功能支持
+- **dash** - 基础 POSIX 支持
+- **sh** - 基础 POSIX 支持
+- **ksh** - 有限支持(实验性)
 
-### Installing Shell Environments
+### 安装 Shell 环境
 
 #### Ubuntu/Debian
 ```bash
@@ -266,7 +270,7 @@ brew install dash ksh
 brew install mksh
 ```
 
-#### Manual Shell Testing
+#### 手动 Shell 测试
 ```bash
 # Test in specific shell
 bash -c "source nvm.sh && nvm --version"
@@ -276,37 +280,37 @@ sh -c ". nvm.sh && nvm --version"          # On macOS: mksh -c ". nvm.sh && nvm 
 ksh -c ". nvm.sh && nvm --version"
 ```
 
-### Shell-Specific Considerations
-- **zsh**: Requires basically any non-default zsh option to be temporarily unset to restore POSIX compliance
-- **dash**: Limited feature set, avoid bash-specific syntax
-- **ksh**: Some features may not work, primarily for compatibility testing
+### 各 Shell 的注意事项
+- **zsh**:需要临时取消设置几乎所有非默认 zsh 选项,以恢复 POSIX 兼容性
+- **dash**:功能集有限,避免使用 bash 特有语法
+- **ksh**:部分功能可能不可用,主要用于兼容性测试
 
-## CI Environment Details
+## CI 环境详情
 
-### GitHub Actions Workflows
+### GitHub Actions 工作流
 
 #### `.github/workflows/tests.yml`
-- Runs test suite across multiple shells and test suites
-- Uses `script` command for proper TTY simulation
-- Matrix strategy covers shell × test suite combinations
-- Excludes install_script tests from non-bash shells
+- 在多个 shell 与多个测试套件上运行测试
+- 使用 `script` 命令模拟真实 TTY
+- 矩阵策略覆盖 shell × 测试套件组合
+- 非 bash shell 排除 install_script 测试
 
 #### `.github/workflows/shellcheck.yml`
-- Lints all shell scripts using shellcheck
-- Tests against multiple shell targets (bash, sh, dash, ksh)
-  - Note: zsh is not included due to [shellcheck limitations](https://github.com/koalaman/shellcheck/issues/809)
-- Uses Homebrew to install latest shellcheck version
+- 使用 shellcheck 对所有 shell 脚本进行 lint
+- 针对多种 shell 目标测试(bash、sh、dash、ksh)
+  - 注意:因 [shellcheck 的限制](https://github.com/koalaman/shellcheck/issues/809),未包含 zsh
+- 使用 Homebrew 安装最新版 shellcheck
 
 #### `.github/workflows/lint.yml`
-- Runs additional linting and formatting checks
-- Validates documentation and code style
+- 运行额外的 lint 与格式检查
+- 校验文档与代码风格
 
-### Travis CI (Legacy)
-- Configured in `.travis.yml`
-- Tests on multiple Ubuntu versions
-- Installs shell environments via apt packages
+### Travis CI(旧版)
+- 配置于 `.travis.yml`
+- 在多个 Ubuntu 版本上测试
+- 通过 apt 包安装 shell 环境
 
-### CI Test Execution
+### CI 测试执行
 ```bash
 # Simulate CI environment locally
 unset TRAVIS_BUILD_DIR  # Disable Travis-specific logic
@@ -314,11 +318,11 @@ unset GITHUB_ACTIONS    # Disable GitHub Actions logic
 make test
 ```
 
-## Setting Up shellcheck Locally
+## 本地搭建 shellcheck
 
-### Installation
+### 安装
 
-#### macOS (Homebrew)
+#### macOS(Homebrew)
 ```bash
 brew install shellcheck
 ```
@@ -328,7 +332,7 @@ brew install shellcheck
 sudo apt-get install shellcheck
 ```
 
-#### From Source
+#### 从源码/二进制
 ```bash
 # Download from https://github.com/koalaman/shellcheck/releases
 wget https://github.com/koalaman/shellcheck/releases/download/latest/shellcheck-latest.linux.x86_64.tar.xz
@@ -336,9 +340,9 @@ tar -xf shellcheck-latest.linux.x86_64.tar.xz
 sudo cp shellcheck-latest/shellcheck /usr/local/bin/
 ```
 
-### Usage
+### 用法
 
-#### Lint Main Files
+#### Lint 主文件
 ```bash
 shellcheck -s bash nvm.sh
 shellcheck -s bash install.sh
@@ -346,7 +350,7 @@ shellcheck -s bash nvm-exec
 shellcheck -s bash bash_completion
 ```
 
-#### Lint Across Shell Types
+#### 跨 Shell 类型 Lint
 ```bash
 shellcheck -s sh nvm.sh      # POSIX sh
 shellcheck -s bash nvm.sh    # Bash extensions
@@ -354,94 +358,94 @@ shellcheck -s dash nvm.sh    # Dash compatibility
 shellcheck -s ksh nvm.sh     # Ksh compatibility
 ```
 
-#### Common shellcheck Directives in nvm
-- `# shellcheck disable=SC2039` - Allow bash extensions in POSIX mode
-- `# shellcheck disable=SC2016` - Allow literal `$` in single quotes
-- `# shellcheck disable=SC2001` - Allow sed usage instead of parameter expansion
-- `# shellcheck disable=SC3043` - Allow `local` keyword (bash extension)
+#### nvm 中常见的 shellcheck 指令
+- `# shellcheck disable=SC2039` - 允许在 POSIX 模式下使用 bash 扩展
+- `# shellcheck disable=SC2016` - 允许单引号内出现字面 `$`
+- `# shellcheck disable=SC2001` - 允许使用 sed 代替参数展开
+- `# shellcheck disable=SC3043` - 允许使用 `local` 关键字(bash 扩展)
 
-### Fixing shellcheck Issues
-1. **Quoting**: Always quote variables: `"${VAR}"` instead of `$VAR`
-2. **POSIX compliance**: Avoid bash-specific features in portable sections
-3. **Array usage**: Use `set --` for positional parameters instead of arrays, which are not supported in POSIX
-4. **Local variables**: Declared with `local FOO` and then initialized on the next line (the latter is for ksh support)
+### 修复 shellcheck 问题
+1. **加引号**:始终为变量加引号:用 `"${VAR}"` 而非 `$VAR`
+2. **POSIX 兼容**:可移植部分避免使用 bash 特有特性
+3. **数组用法**:使用 `set --` 处理位置参数,而非 POSIX 不支持的数组
+4. **局部变量**:先用 `local FOO` 声明,再在下一行初始化(后者是为了支持 ksh)
 
-## Development Best Practices
+## 开发最佳实践
 
-### Code Style
-- Use 2-space indentation
-- Follow POSIX shell guidelines for portability
-- Prefix internal functions with `nvm_`
-- Use `nvm_echo` instead of `echo` for output
-- Use `nvm_err` for error messages
+### 代码风格
+- 使用 2 空格缩进
+- 遵循 POSIX shell 规范以保证可移植性
+- 内部函数以 `nvm_` 为前缀
+- 输出使用 `nvm_echo` 而非 `echo`
+- 错误信息使用 `nvm_err`
 
-### Compatibility
-- Test changes across all supported shells
-- Avoid bash-specific features in core functionality
-- Use `nvm_is_zsh` to check when zsh-specific behavior is needed
-- Mock external dependencies in tests
+### 兼容性
+- 在所有受支持的 shell 中测试改动
+- 核心功能避免使用 bash 特有特性
+- 需要针对 zsh 的特殊行为时,使用 `nvm_is_zsh` 检测
+- 在测试中 mock 外部依赖
 
-### Performance
-- Cache expensive operations (like remote version lists)
-- Use local variables to avoid scope pollution
-- Minimize subprocess calls where possible
-- Implement lazy loading for optional features
+### 性能
+- 缓存高开销操作(如远程版本列表)
+- 使用局部变量避免作用域污染
+- 尽量减少子进程调用
+- 对可选功能实现懒加载
 
-### Debugging
-- Use `nvm debug` command for environment information
-- Enable verbose output with `set -x` during development
-- Test with `NVM_DEBUG=1` environment variable
-- Check `$NVM_DIR/.cache` for cached data issues
+### 调试
+- 使用 `nvm debug` 命令获取环境信息
+- 开发期间用 `set -x` 开启详细输出
+- 使用 `NVM_DEBUG=1` 环境变量测试
+- 检查 `$NVM_DIR/.cache` 排查缓存数据问题
 
-## Common Gotchas
+## 常见陷阱
 
-1. **PATH modification**: nvm modifies PATH extensively; be careful with restoration
-2. **Shell sourcing**: nvm must be sourced, not executed as a script
-3. **Version resolution**: Aliases, partial versions, and special keywords interact complexly
-4. **Platform differences**: Handle differences between Linux, macOS, and other Unix systems
-5. **Network dependencies**: Many operations require internet access for version lists
-6. **Concurrent access**: Multiple shells can conflict when installing versions simultaneously
+1. **PATH 修改**:nvm 会大范围修改 PATH;恢复时务必小心
+2. **Shell source**:nvm 必须 source,不能当作脚本直接执行
+3. **版本解析**:别名、部分版本号与特殊关键字之间的交互较为复杂
+4. **平台差异**:需处理 Linux、macOS 与其他 Unix 系统之间的差异
+5. **网络依赖**:许多操作需要联网获取版本列表
+6. **并发访问**:多个 shell 同时安装版本时可能发生冲突
 
-## Windows Support
+## Windows 支持
 
-nvm works on Windows via several compatibility layers:
+nvm 可通过多种兼容层在 Windows 上运行:
 
-### WSL2 (Windows Subsystem for Linux)
-- Full nvm functionality available
-- **Important**: Ensure you're using WSL2, not WSL1 - see [Microsoft's WSL2 installation guide](https://docs.microsoft.com/en-us/windows/wsl/install) for up-to-date instructions
-- Install Ubuntu or other Linux distribution from Microsoft Store
-- Follow Linux installation instructions within WSL2
+### WSL2(适用于 Linux 的 Windows 子系统)
+- nvm 全部功能可用
+- **重要**:请确保使用 WSL2 而非 WSL1 - 最新步骤参见 [Microsoft 的 WSL2 安装指南](https://docs.microsoft.com/en-us/windows/wsl/install)
+- 从 Microsoft Store 安装 Ubuntu 或其他 Linux 发行版
+- 在 WSL2 内按 Linux 安装说明操作
 
 ### Cygwin
-- POSIX-compatible environment for Windows
-- Download Cygwin from [cygwin.com](https://www.cygwin.com/install.html) and run the installer
-- During installation, include these packages: bash, curl, git, tar, and wget
-- May require additional PATH configuration
+- Windows 上的 POSIX 兼容环境
+- 从 [cygwin.com](https://www.cygwin.com/install.html) 下载并运行安装程序
+- 安装时勾选这些包:bash、curl、git、tar、wget
+- 可能需要额外的 PATH 配置
 
-### Git Bash (MSYS2)
-- Comes with Git for Windows
-- Limited functionality compared to full Linux environment
-- Some features may not work due to path translation issues, including:
-  - Binary extraction paths may be incorrectly translated
-  - Symlink creation may fail
-  - Some shell-specific features may behave differently
-  - File permissions handling differs from Unix systems
+### Git Bash(MSYS2)
+- 随 Git for Windows 附带
+- 相比完整 Linux 环境功能受限
+- 因路径转换问题,部分功能可能无法使用,包括:
+  - 二进制解压路径可能被错误转换
+  - 符号链接创建可能失败
+  - 部分 shell 特有功能行为可能不同
+  - 文件权限处理与 Unix 系统不同
 
-### Setup Instructions for Windows
+### Windows 安装说明
 
-#### WSL2 (recommended)
-1. Install WSL2 using the official Microsoft guide: https://docs.microsoft.com/en-us/windows/wsl/install
-2. Install Ubuntu or preferred Linux distribution from Microsoft Store
-3. Follow standard Linux installation within WSL2
+#### WSL2(推荐)
+1. 按 Microsoft 官方指南安装 WSL2:https://docs.microsoft.com/en-us/windows/wsl/install
+2. 从 Microsoft Store 安装 Ubuntu 或你偏好的 Linux 发行版
+3. 在 WSL2 内按标准 Linux 流程安装
 
 #### Git Bash
-1. Install Git for Windows (includes Git Bash) from https://git-scm.com/download/win
-2. Open Git Bash terminal
-3. Run nvm installation script
+1. 从 https://git-scm.com/download/win 安装 Git for Windows(含 Git Bash)
+2. 打开 Git Bash 终端
+3. 运行 nvm 安装脚本
 
 #### Cygwin
-1. Download and install Cygwin from https://www.cygwin.com/install.html
-2. Include bash, curl, git, tar, and wget packages during installation
-3. Run nvm installation in Cygwin terminal
+1. 从 https://www.cygwin.com/install.html 下载并安装 Cygwin
+2. 安装时包含 bash、curl、git、tar、wget 包
+3. 在 Cygwin 终端中运行 nvm 安装
 
-This guide should help AI coding agents understand the nvm codebase structure, testing procedures, and development environment setup requirements.
+本指南可帮助 AI 编码代理理解 nvm 代码库结构、测试流程与开发环境搭建要求。
