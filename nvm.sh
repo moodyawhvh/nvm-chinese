@@ -5,11 +5,29 @@
 #
 # Implemented by Tim Caswell <tim@creationix.com>
 # with much bash help from Matthew Ranney
+#
+# ─────────────────── 中文注释(汉化版说明,原逻辑未改动)───────────────────
+# 本文件是 nvm 的核心脚本:以一个符合 POSIX 标准的 shell 函数实现 Node 版本管理。
+# 兼容 sh、dash、bash、ksh、zsh 等多种 shell。
+# 使用方式:不要直接执行本文件,而是在 shell 配置文件(bash profile)中
+#   source 本文件(如 `. "$NVM_DIR/nvm.sh"`),之后即可使用 `nvm` 命令。
+# 结构速览:
+#   1. 基础工具函数(nvm_echo / nvm_err / nvm_has 等跨 shell 安全封装);
+#   2. 版本号解析与比较(nvm_normalize_version / nvm_version_greater 等);
+#   3. 别名与本地版本解析(nvm_resolve_alias / nvm_ls 等);
+#   4. 下载与安装(nvm_download / nvm_install_binary / nvm_install_source);
+#   5. PATH 与环境管理(nvm_change_path / nvm_use / nvm_deactivate);
+#   6. 文件末尾的 `nvm()` 主入口:解析子命令并分发到上述函数。
+# 安全要点:所有来自镜像的"元数据"(版本列表、校验和)只作为数据传给
+#   awk/sed 与下载器,绝不重新交由 shell 求值,防止注入(详见 THREAT_MODEL.md)。
+# ──────────────────────────────────────────────────────────────────────────
 
 # "local" warning, quote expansion warning, sed warning, `local` warning
 # shellcheck disable=SC2039,SC2016,SC2001,SC3043
 { # this ensures the entire script is downloaded #
 
+# 中文注释:记录"是谁 source 了这个脚本"——`$_` 保存的是上一条命令,
+# 这里用于在 zsh 下探测调用来源,供后续自动 `cd` 到项目目录(.nvmrc)逻辑参考。
 # shellcheck disable=SC3028
 NVM_SCRIPT_SOURCE="${_:-}"
 

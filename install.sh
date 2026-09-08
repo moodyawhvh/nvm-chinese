@@ -1,4 +1,18 @@
 #!/usr/bin/env bash
+#
+# ─────────────────── 中文注释(汉化版说明,原逻辑未改动)───────────────────
+# 本脚本是 nvm 的官方安装器,官方用法是把下载内容通过管道交给 bash 执行:
+#   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/<版本>/install.sh | bash
+#   (或使用 wget)
+# 主要流程:
+#   1. 探测 curl / wget / git 等可用下载工具;
+#   2. 确定 nvm 安装目录($NVM_DIR,默认 ~/.nvm,遵循 XDG_CONFIG_HOME);
+#   3. 优先用 git clone 拉取 nvm 仓库(可带 NVM_SOURCE 指定源),否则直接下载脚本;
+#   4. 校验下载内容的完整性与脚本结尾标记;
+#   5. 尝试向 ~/.bashrc / ~/.zshrc / ~/.profile 等 profile 文件追加 source 配置。
+# 安全要点:校验和仅能证明"下载完整",不能证明"来源可信";
+#   镜像/来源本身即被信任的代码执行方(详见 .github/THREAT_MODEL.md)。
+# ──────────────────────────────────────────────────────────────────────────
 
 { # this ensures the entire script is downloaded #
 
@@ -22,6 +36,8 @@ nvm_echo() {
   command printf %s\\n "$*" 2>/dev/null
 }
 
+# 中文注释:安全护栏——本脚本必须由 bash 执行(官方即用管道交给 bash),
+# 在 zsh 下直接执行会被拦截报错退出。
 if [ -z "${BASH_VERSION}" ] || [ -n "${ZSH_VERSION}" ]; then
   # shellcheck disable=SC2016
   nvm_echo >&2 'Error: the install instructions explicitly say to pipe the install script to `bash`; please follow them'
