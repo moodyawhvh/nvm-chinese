@@ -1,49 +1,51 @@
-# `nvm` Charter
+# `nvm` 项目章程
 
-nvm is a version manager for Node.js, designed to be installed per-user, and invoked per-shell. nvm works on any POSIX-compliant shell (sh, dash, ksh, zsh, bash), in particular on these platforms: unix, macOS, and Windows WSL.
+> 🌐 本文档由 [nvm-sh/nvm](https://github.com/nvm-sh/nvm) 翻译,英文原版见原项目。
 
-## Section 0: Guiding Principles
+nvm 是一个 Node.js 版本管理器,设计为按用户安装、按 shell 调用。nvm 可运行于任何符合 POSIX 标准的 shell(sh、dash、ksh、zsh、bash),尤其支持以下平台:unix、macOS 以及 Windows WSL。
 
-The `nvm` project is part of the [OpenJS Foundation][openjs foundation], which operates transparently, openly, collaboratively, and ethically. Project proposals, timelines, and status must not merely be open, but also easily visible to outsiders.
+## 第 0 节:指导原则
 
-## Section 1: Scope
+`nvm` 项目是 [OpenJS 基金会][openjs foundation] 的一部分。基金会以透明、公开、协作且合乎道德的方式运作。项目的提案、时间表和状态不仅必须公开,还必须让外部人员易于查看。
 
-`nvm` is a node version manager, focused on making it easy to install and manage multiple Node.js versions. Any features related to managing the installation and removal of Node.js on any node-supported platform are potentially in scope.
+## 第 1 节:范围
 
-## Section 2: Relationship with OpenJS Foundation CPC.
+`nvm` 是一个 Node 版本管理器,专注于让多个 Node.js 版本的安装与管理变得简单。凡与在 node 支持的任何平台上安装、卸载 Node.js 相关的功能,均可能属于本项目范围。
 
-Technical leadership for the projects within the [OpenJS Foundation][openjs foundation] is delegated to the projects through their project charters by the [OpenJS Foundation Cross-Project Council](https://openjsf.org/about/governance/) (CPC). In the case of the `nvm` project, it is delegated to the [`nvm` Maintainers](README.md#maintainers) (the “Maintainers”). The OpenJS Foundation's business leadership is the Board of Directors (the “Board”).
+## 第 2 节:与 OpenJS 基金会 CPC 的关系
 
-This `nvm` Charter reflects a carefully constructed balanced role for the Maintainers and the CPC in the governance of the OpenJS Foundation. The charter amendment process is for the Maintainers to propose changes using simple majority of the full Maintainers, the proposed changes being subject to review and approval by the CPC. The CPC may additionally make amendments to the project charter at any time, though the CPC will not interfere with day-to-day discussions, votes or meetings of the Maintainers.
+[OpenJS 基金会][openjs foundation]旗下项目的技术领导权,由 [OpenJS 基金会跨项目理事会](https://openjsf.org/about/governance/)(CPC)通过各项目章程授予项目。就 `nvm` 项目而言,该权力授予 [`nvm` 维护者](README.md#维护者maintainers)(下称"维护者")。OpenJS 基金会的业务领导机构是董事会(下称"董事会")。
 
-### 2.1 Other Formal Project Relationships
+本 `nvm` 章程为维护者与 CPC 在 OpenJS 基金会治理中的角色做了审慎的平衡安排。章程修订流程为:由维护者以全体维护者简单多数表决提出修改,修改内容须经 CPC 审核批准。CPC 也可随时自行修订项目章程,但 CPC 不会干预维护者的日常讨论、投票或会议。
 
-Section Intentionally Left Blank
+### 2.1 其他正式项目关系
 
-## Section 3: `nvm`'s Maintainers Governing Body
+本节有意留空。
 
-`nvm` is governed by its [maintainers](README.md#maintainers).
+## 第 3 节:`nvm` 维护者治理机构
 
-## Section 4: Roles & Responsibilities
+`nvm` 由其[维护者](README.md#维护者maintainers)治理。
 
-The roles and responsibilities of `nvm`'s Maintainers are described in [GOVERNANCE.md](./GOVERNANCE.md).
+## 第 4 节:角色与职责
 
-### Section 4.1 Project Operations & Management
+`nvm` 维护者的角色与职责见 [GOVERNANCE.md](./GOVERNANCE.md)。
 
-Section Intentionally Left Blank
+### 第 4.1 节 项目运营与管理
 
-### Section 4.2: Decision-making, Voting, and/or Elections
+本节有意留空。
 
-Section Intentionally Left Blank
+### 第 4.2 节:决策、投票与选举
 
-### Section 4.3: Other Project Roles
+本节有意留空。
 
-Section Intentionally Left Blank
+### 第 4.3 节:其他项目角色
 
-## Section 5: Definitions
+本节有意留空。
 
-  - *Contributors*: contribute code or other artifacts, but do not have the right to commit to the codebase. Contributors work with the project’s maintainers to have code committed to the code base. A Contributor may be promoted to a Maintainer by the Maintainers. Contributors should rarely be encumbered by the Maintainers and never by the CPC or OpenJS Foundation Board.
+## 第 5 节:定义
 
-  - *Maintainers*: Contributors with any kind of decision-making authority in the project.
+  - *贡献者(Contributors)*:贡献代码或其他成果,但不拥有向代码库直接提交(commit)的权利。贡献者与项目维护者协作,由维护者将代码提交进代码库。贡献者可由维护者提升为维护者。贡献者应尽量不受维护者掣肘,更绝不应受 CPC 或 OpenJS 基金会董事会掣肘。
+
+  - *维护者(Maintainers)*:在项目中拥有任何形式决策权的贡献者。
 
 [openjs foundation]: https://openjsf.org
